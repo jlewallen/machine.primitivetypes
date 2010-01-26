@@ -16,7 +16,7 @@ namespace Machine.PrimitiveTypes.MongoDb
     public T Entity
     {
       get;
-      private set;
+      set;
     }
 
     public System.Collections.IDictionary Attributes
