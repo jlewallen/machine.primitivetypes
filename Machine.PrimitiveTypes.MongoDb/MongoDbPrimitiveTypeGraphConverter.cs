@@ -10,6 +10,7 @@ namespace Machine.PrimitiveTypes.MongoDb
     {
       Override<Decimal>(value => value.ToString(), value => Decimal.Parse(value.ToString()));
       Override<Guid>(value => value.ToString(), value => new Guid(value.ToString()));
+      Override<DateTime>(value => new DateTime(((DateTime)value).Ticks, DateTimeKind.Utc), value => value);
     }
 
     public override void AddToDictionary(Document dictionary, string key, object value)
