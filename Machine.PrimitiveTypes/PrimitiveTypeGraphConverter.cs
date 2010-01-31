@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
@@ -125,6 +126,13 @@ namespace Machine.PrimitiveTypes
       return dictionary;
     }
 
+    static object Coerce(object value, Type sourceType, Type destinyType)
+    {
+      var sourceConverter = TypeDescriptor.GetConverter(sourceType);
+      var destinyConverter = TypeDescriptor.GetConverter(destinyType);
+      return destinyConverter.ConvertFromInvariantString(sourceConverter.ConvertToInvariantString(value));
+    }
+
     object FromPrimitiveType(Type type, object value)
     {
       try
@@ -135,7 +143,11 @@ namespace Machine.PrimitiveTypes
         }
         if (_fromPrimitiveType.ContainsKey(type))
         {
-          return _fromPrimitiveType[type](value);
+          var actual = _fromPrimitiveType[type](value);
+          var actualType = actual.GetType();
+          if (actualType != type)
+            return Coerce(actual, actualType, type);
+          return actual;
         }
         if (type.IsEnum)
         {
