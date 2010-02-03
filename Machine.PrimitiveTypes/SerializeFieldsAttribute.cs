@@ -7,7 +7,8 @@ namespace Machine.PrimitiveTypes
   {
     public static bool Has(Type type)
     {
-      return type.GetCustomAttributes(typeof(SerializeFieldsAttribute), true).Length > 0;
+      return type.GetCustomAttributes(typeof(SerializeFieldsAttribute), true).Length > 0 ||
+             type.GetCustomAttributes(typeof(SerializableAttribute), true).Length > 0;
     }
   }
 }
