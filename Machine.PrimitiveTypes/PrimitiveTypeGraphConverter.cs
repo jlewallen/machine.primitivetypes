@@ -75,7 +75,7 @@ namespace Machine.PrimitiveTypes
         }
         if (type.IsEnum)
         {
-          return Enum.GetName(type, value);
+          return value.ToString();
         }
         if (typeof(IDictionary).IsAssignableFrom(type))
         {
