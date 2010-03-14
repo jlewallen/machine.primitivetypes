@@ -98,9 +98,16 @@ namespace Machine.PrimitiveTypes
     
     public object Get(object instance)
     {
-      if (FieldInfo != null)
-        return FieldInfo.GetValue(instance);
-      return PropertyInfo.GetValue(instance, new object[0]);
+      try
+      {
+        if (FieldInfo != null)
+          return FieldInfo.GetValue(instance);
+        return PropertyInfo.GetValue(instance, new object[0]);
+      }
+      catch (Exception error)
+      {
+        throw new Exception("Error reading " + this.Name, error);
+      }
     }
 
     public void Set(object instance, object value)

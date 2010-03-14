@@ -69,6 +69,10 @@ namespace Machine.PrimitiveTypes
     {
       try
       {
+        if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>))
+        {
+          return ToSimpleType(type.GetGenericArguments().First(), value);
+        }
         if (_toPrimitiveType.ContainsKey(type))
         {
           return _toPrimitiveType[type](value);
@@ -141,6 +145,10 @@ namespace Machine.PrimitiveTypes
         {
           return null;
         }
+        if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>))
+        {
+          return FromPrimitiveType(type.GetGenericArguments().First(), value);
+        }
         if (_fromPrimitiveType.ContainsKey(type))
         {
           var actual = _fromPrimitiveType[type](value);
@@ -151,7 +159,7 @@ namespace Machine.PrimitiveTypes
         }
         if (type.IsEnum)
         {
-          return Enum.Parse(type, value.ToString());
+          return Enum.Parse(type, value.ToString().Replace("Recievable", "Receivable"));
         }
         if (type.IsArray)
         {
