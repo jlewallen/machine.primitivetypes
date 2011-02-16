@@ -1,4 +1,4 @@
-using MongoDB.Driver;
+using System.Collections;
 
 namespace Machine.PrimitiveTypes.MongoDb
 {
@@ -6,15 +6,15 @@ namespace Machine.PrimitiveTypes.MongoDb
   {
     readonly MongoDbPrimitiveTypeGraphConverter _converter = new MongoDbPrimitiveTypeGraphConverter();
 
-    public MongoEntity<T> Translate(Document from)
+    public MongoEntity<T> Translate(IDictionary from)
     {
       var converted = _converter.FromPrimitiveTypeGraph<T>(from);
       return new MongoEntity<T>(converted, from);
     }
 
-    public Document Translate(MongoEntity<T> from)
+    public IDictionary Translate(MongoEntity<T> from)
     {
-      var converted = (Document)_converter.ToPrimitiveTypeGraph(from.Entity);
+      var converted = (IDictionary)_converter.ToPrimitiveTypeGraph(from.Entity);
       if (from.Attributes != null)
       {
         converted["_id"] = from.Attributes["_id"];

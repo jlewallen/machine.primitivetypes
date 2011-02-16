@@ -1,5 +1,5 @@
 using System;
-using MongoDB.Driver;
+using System.Collections;
 
 namespace Machine.PrimitiveTypes.MongoDb
 {
@@ -26,13 +26,13 @@ namespace Machine.PrimitiveTypes.MongoDb
         _target = target;
       }
 
-      public MongoEntity<object> Translate(Document from)
+      public MongoEntity<object> Translate(IDictionary from)
       {
         var translated = _target.Translate(from);
         return new MongoEntity<object>(translated.Entity, translated.Attributes);
       }
 
-      public Document Translate(MongoEntity<object> from)
+      public IDictionary Translate(MongoEntity<object> from)
       {
         return _target.Translate(new MongoEntity<T>((T)from.Entity, from.Attributes));
       }

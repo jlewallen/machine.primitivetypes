@@ -1,10 +1,10 @@
-using MongoDB.Driver;
+using System.Collections;
 
 namespace Machine.PrimitiveTypes.MongoDb
 {
   public interface ITranslateEntities<T>
   {
-    MongoEntity<T> Translate(Document from);
-    Document Translate(MongoEntity<T> from);
+    MongoEntity<T> Translate(IDictionary from);
+    IDictionary Translate(MongoEntity<T> from);
   }
 }
